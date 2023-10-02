@@ -14,9 +14,9 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String(128), nullable=False)
 
     # Add relationships to associate users with their data (customers, sales orders, and inventory)
-    customers = db.relationship('Customer', backref='user', lazy=True)
-    sales_orders = db.relationship('SalesOrder', backref='user', lazy=True)
-    inventory = db.relationship('ProductInventory', backref='user', lazy=True)
+    customers = db.relationship('Customer', backref='user')
+    sales_orders = db.relationship('SalesOrder', backref='user')
+    inventory = db.relationship('ProductInventory', backref='user')
 
 
     # Serialization rules to control output
