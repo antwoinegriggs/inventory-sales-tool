@@ -19,3 +19,15 @@ class ProductInventory(db.Model, SerializerMixin):
 
     # One-to-Many SalesOrder
     inventory_orders = db.relationship('SalesOrder')
+
+class Customer(db.Model):
+    __tablename__ = 'customers'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+
+    # Many-to-Many ProductInventory
+    customer_inventory = db.relationship(
+        'ProductInventory', secondary='customer_inventory_orders', overlaps='customer_inventory')
+    # One-to-Many SaleOrders
+    customer_orders = db.relationship('SalesOrder')
