@@ -55,7 +55,7 @@ class ProductInventory(db.Model, SerializerMixin):
         'Customer', secondary='customer_inventory_orders', overlaps='customer_inventory')
 
     # One-to-Many SalesOrder
-    inventory_orders = db.relationship('SalesOrder')
+    inventory_orders = db.relationship('SalesOrder', backref='orders')
 
 class Customer(db.Model):
     __tablename__ = 'customers'
@@ -83,7 +83,7 @@ class SalesOrder(db.Model):
     
     @property
     def customer_name(self):
-        return self.product.name
+        return self.customer.name
     customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'))
 
     @property
