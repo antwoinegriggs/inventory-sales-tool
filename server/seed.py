@@ -29,36 +29,36 @@ def create_order(user, customers, inventory):
     )
 
     # Add random products from inventory to the order
-    num_products = randint(1, 5)
+    # num_products = randint(1, 5)
     order.order_items = []
 
-    for _ in range(num_products):
-        product = choice(inventory)
-        quantity = randint(1, 10)
-        amount = quantity * product.product_price
+    # for _ in range(num_products):
+    product = choice(inventory)
+    quantity = randint(1, 10)
+    amount = quantity * product.product_price
 
         # Create an order item
-        order_item = {
+    order_item = {
             'product_inventory': product,
             'quantity': quantity,
             'amount': amount
         }
 
-        order.quantity = quantity  
-        order.amount = amount 
-        order.product_inventory_id = product.id
-        order.order_items.append(order_item)
+    order.quantity = quantity  
+    order.amount = amount 
+    order.product_inventory_id = product.id
+    order.order_items.append(order_item)
 
-        db.session.add(order)
-        db.session.commit()
+    db.session.add(order)
+    db.session.commit()
         
         # Populate the join table
-        customer_inventory_order_entry = {
+    customer_inventory_order_entry = {
             'customer_id': order.customer.id,
             'product_inventory_id': product.id,
             'sales_order_id': order.id
         }
-        db.session.execute(customer_inventory_order.insert().values(customer_inventory_order_entry))
+    db.session.execute(customer_inventory_order.insert().values(customer_inventory_order_entry))
 
     db.session.add(order)
     db.session.commit()
@@ -78,10 +78,12 @@ if __name__ == '__main__':
         users = []
 
         # Append a unique number to the username
-        for i in range(5):
+        for i in range(3):
             username = fake.first_name() + str(i)
-            while User.query.filter_by(username=username).first():  # Check if the username already exists
-                username = fake.first_name() + str(i)  # Generate a new username if it exists
+            # Check if the username already exists
+            while User.query.filter_by(username=username).first():  
+                # Generate a new username if it exists
+                username = fake.first_name() + str(i)  
             user = User(
                 username=username
     )
@@ -100,7 +102,7 @@ if __name__ == '__main__':
 
         # Create inventory
         for user in users:
-            products = [create_inventory(user) for _ in range(5)]
+            products = [create_inventory(user) for _ in range(2)]
             for product in products:
                 product.user_id = user.id
             db.session.add_all(products)
@@ -108,7 +110,7 @@ if __name__ == '__main__':
             user.inventory.extend(products)
             db.session.commit()
 
-        # Create 5 random orders for each user and populate the join table
+        # Create 2 random orders for each user 
         for user in users:
             inventory = ProductInventory.query.filter_by(user=user).all()
             for _ in range(2):
