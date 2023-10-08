@@ -19,6 +19,7 @@ from models import *
 def index():
     return '<h1>Project Server</h1>'
 
+
 class Signup(Resource):
     def post(self):
         data = request.get_json()
@@ -75,10 +76,25 @@ class Logout(Resource):
             session['user_id'] = None
             return make_response({"message": "204 (No Content)"}, 204)
 
+class ProductInventoryList(Resource):
+    def get(self):
+        user = User.query.filter(User.id == session.get('user_id')).first()
+        if user:
+            product_inventory_items = [product.to_dict() for product in user.inventory]
+            return product_inventory_items, 200
+        else:
+            return make_response({"message": "401 (Unauthorized)"}, 401)
+
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(ProductInventoryList, '/product_inventory', endpoint='product_inventory_list')
+
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
