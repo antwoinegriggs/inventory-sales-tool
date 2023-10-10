@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import Login from "../pages/Login";
-import * from "../pages/Inventory";
-import SalesOrders from "../pages/Sales";
-
+import Inventory from "../pages/Inventory";
+import SalesOrders from "../pages/Customer";
+import NewProduct from "../pages/NewProduct";
+import CustomerList from "../pages/Customer";
+import NewCustomer from "../pages/NewCustomer";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -22,19 +24,30 @@ function App() {
 
   return (
     <>
-      <NavBar user={user} setUser={setUser} />
-      <main>
-        <Switch>
-          <Route path="/new">
-            <Inventory user={user} />
-          </Route>
-          <Route path="/">
-            <SalesOrders />
-          </Route>
-        </Switch>
-      </main>
+      <Router>
+        <NavBar user={user} setUser={setUser} />
+        <main>
+          <Switch>
+            <Route path="/inventory">
+              <Inventory user={user} />
+            </Route>
+            <Route path="/newproduct">
+              <NewProduct user={user} />
+            </Route>
+            <Route path="/sales">
+              <SalesOrders />
+            </Route>
+            <Route path="/customers">
+              <CustomerList />
+            </Route>
+            <Route path="/newcustomer">
+              <NewCustomer />
+            </Route>
+          </Switch>
+        </main>
+      </Router>
     </>
-  );;
+  );
 }
 
 export default App;

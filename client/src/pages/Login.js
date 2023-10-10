@@ -6,32 +6,32 @@ function Login({ onLogin }) {
   const [showLogin, setShowLogin] = useState(true);
 
   return (
-    <Wrapper>
-      <Logo>IST</Logo>
+    <div>
+      <h2>IST</h2>
       {showLogin ? (
         <>
           <LoginForm onLogin={onLogin} />
-          <Divider />
+
           <p>
             Don't have an account? &nbsp;
-            <Button color="secondary" onClick={() => setShowLogin(false)}>
+            <button color="secondary" onClick={() => setShowLogin(false)}>
               Sign Up
-            </Button>
+            </button>
           </p>
         </>
       ) : (
         <>
           <SignUpForm onLogin={onLogin} />
-          <Divider />
+
           <p>
             Already have an account? &nbsp;
-            <Button color="secondary" onClick={() => setShowLogin(true)}>
+            <button color="secondary" onClick={() => setShowLogin(true)}>
               Log In
-            </Button>
+            </button>
           </p>
         </>
       )}
-    </Wrapper>
+    </div>
   );
 }
 export default Login;
